@@ -1,0 +1,37 @@
+const firestore = require('../services/firestore');
+
+class ProjectRepository {
+  constructor() {
+    this.collectionName = 'projects';
+    this.projectsCollection = firestore.collection(this.collectionName);
+  }
+
+  async get(key) {
+    const project = await this.projectsCollection.doc(key).get();
+  
+    return project.data();
+  }
+  
+  async getAll() {
+    const projectsRef = await this.projectsCollection.get();
+
+    const projects = [];
+    projectsRef.forEach(user => {
+      projects.push({ id: user.id, ...user.data() });
+    });
+  
+    return projects;
+  }
+  
+  async create({ name, owner }) {
+    const project = await this.projectsCollection.add({
+      name,
+      owner,
+      createdAt: new Date()
+    });
+  
+    return project.id;
+  }
+}
+
+module.exports = new ProjectRepository();
