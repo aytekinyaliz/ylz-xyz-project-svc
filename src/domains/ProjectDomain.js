@@ -1,5 +1,6 @@
 const projectRepositoryInstance = require('../repositories/ProjectRepository');
 const iamServiceInstance = require('../services/IamService');
+const deviceServiceInstance = require('../services/DeviceService');
 
 
 class ProjectDomain {
@@ -15,8 +16,8 @@ class ProjectDomain {
     return await projectRepositoryInstance.create(project);
   }
 
-  async addMember({ id, email, userId }) {
-    const project = this.get(id);
+  async addMember({ id, email, userId, token }) {
+    const project = await this.get(id);
 
     if(!project) {
       const error = Error('Project not found!');
@@ -32,10 +33,17 @@ class ProjectDomain {
       throw error;
     }
 
-    const user = iamServiceInstance.getUserByEmail(email);
+    const user = await iamServiceInstance.getUserByEmail({ email, token });
 
     if(!user) {
       const error = Error('User not found!');
+      error.code = 400;
+
+      throw error;
+    }
+
+    if(project.owner === user.id) {
+      const error = Error('Already the owner!');
       error.code = 400;
 
       throw error;
@@ -48,9 +56,47 @@ class ProjectDomain {
       throw error;
     }
 
-    project.members.push(user.id)
+    project.members.push(user.id);
 
-    await projectRepositoryInstance.updateMembers(project.members);
+    await projectRepositoryInstance.update({ id, members: project.members });
+  }
+
+  async addDevice({ id, deviceId, userId, token }) {
+    const project = await this.get(id);
+
+    if(!project) {
+      const error = Error('Project not found!');
+      error.code = 400;
+
+      throw error;
+    }
+
+    if(project.owner !== userId) {
+      const error = Error('Not authorized to perform this operation!');
+      error.code = 403;
+
+      throw error;
+    }
+
+    const device = await deviceServiceInstance.get({ deviceId, token });
+
+    if(!device) {
+      const error = Error('Device not found!');
+      error.code = 400;
+
+      throw error;
+    }
+
+    if(project.devices.includes(deviceId)) {
+      const error = Error('Already added!');
+      error.code = 400;
+
+      throw error;
+    }
+
+    project.devices.push(deviceId);
+
+    await projectRepositoryInstance.update({ id, devices: project.devices });
   }
 }
 

@@ -36,9 +36,9 @@ class ProjectRepository {
     return project.id;
   }
 
-  async updateMembers({ id, members }) {
-    const project = await this.projectsCollection.doc(id).update({
-      members
+  async update({ id, ...fields }) {
+    await this.projectsCollection.doc(id).update({
+      ...fields
     });
   }
 }

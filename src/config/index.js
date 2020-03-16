@@ -4,6 +4,7 @@ dotenv.config();
 
 module.exports = {
   apiPrefix: process.env.API_PREFIX,
+  deviceServiceUri: process.env.DEVICE_SERVICE_URI,
   iamServiceUri: process.env.IAM_SERVICE_URI,
   nodeEnv: process.env.NODE_ENV,
   port: process.env.PORT,

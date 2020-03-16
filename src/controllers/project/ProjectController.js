@@ -38,12 +38,12 @@ class ProjectController {
 
   async addMember(req, res, next) {
     try {
-      const { id: userId } = res.locals.user;
+      const { id: userId, token } = res.locals.user;
       const { id } = req.params;
       const { email } = req.body;
 
       try {
-        await projectDomainInstance.addMember({ id, email, userId });
+        await projectDomainInstance.addMember({ id, email, userId, token });
       } catch(err) {
         if(err.code) {
           return res.status(err.code).json({ message: err.message });
