@@ -23,11 +23,14 @@ class ProjectRepository {
     return projects;
   }
   
-  async create({ name, owner }) {
+  async create({ name, owner, createdBy }) {
     const project = await this.projectsCollection.add({
       name,
       owner,
-      createdAt: new Date()
+      members: [],
+      devices: [],
+      createdAt: new Date(),
+      createdBy
     });
   
     return project.id;
