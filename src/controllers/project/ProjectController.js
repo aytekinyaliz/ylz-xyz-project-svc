@@ -13,11 +13,11 @@ class ProjectController {
 
   async getOne(req, res, next) {
     try {
-      const key = req.params.key;
+      const { id } = req.params;
 
-      const user = await projectDomainInstance.get(key);
+      const project = await projectDomainInstance.get(id);
 
-      res.json(user);
+      res.json(project);
     } catch(err) {
       next(err);
     }
@@ -27,6 +27,40 @@ class ProjectController {
     try {
       const { id: userId } = res.locals.user;
       const { name } = req.body;
+
+      const id = await projectDomainInstance.create({ name, owner: userId, createdBy: userId });
+
+      res.status(201).json({ id });
+    } catch(err) {
+      next(err);
+    }
+  }
+
+  async addMember(req, res, next) {
+    try {
+      const { id: userId } = res.locals.user;
+      const { id } = req.params;
+      const { email } = req.body;
+
+      try {
+        await projectDomainInstance.addMember({ id, email, userId });
+      } catch(err) {
+        if(err.code) {
+          return res.status(err.code).json({ message: err.message });
+        }
+      }
+
+      return res.send();
+    } catch(err) {
+      next(err);
+    }
+  }
+
+  async addDevice(req, res, next) {
+    try {
+      const { id: userId } = res.locals.user;
+      const { key } = req.params;
+      const { deviceId } = req.body;
 
       const id = await projectDomainInstance.create({ name, owner: userId, createdBy: userId });
 

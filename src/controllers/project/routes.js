@@ -3,7 +3,6 @@ const { authLevel, authMiddleware } = require('ylz-xyz-auth-mdw');
 
 const projectControllerInstance = require('./ProjectController');
 
-
 const router = Router();
 
 router.route('/').get(
@@ -11,9 +10,19 @@ router.route('/').get(
   projectControllerInstance.getAll
 );
 
-router.route('/:key').get(
+router.route('/:id').get(
   authMiddleware(authLevel.private),
   projectControllerInstance.getOne
+);
+
+router.route('/:id/addMember').put(
+  authMiddleware(authLevel.private),
+  projectControllerInstance.addMember
+);
+
+router.route('/:id/addDevice').put(
+  authMiddleware(authLevel.private),
+  projectControllerInstance.addDevice
 );
 
 router.route('/').post(

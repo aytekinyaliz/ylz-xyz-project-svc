@@ -15,7 +15,8 @@
     "express": "4.17.1",
     "firebase-admin": "8.10.0",
     "morgan-body": "2.4.8",
-    "ylz-xyz-auth-mdw": "git+https://github.com/aytekinyaliz/ylz-xyz-auth-mdw.git"
+    "ylz-xyz-auth-mdw": "git+https://github.com/aytekinyaliz/ylz-xyz-auth-mdw.git",
+    "ylz-connector": "git+https://github.com/aytekinyaliz/ylz-connector.git"
   },
   "devDependencies": {
     "nodemon": "2.0.2"

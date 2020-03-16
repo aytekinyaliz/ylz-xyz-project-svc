@@ -35,6 +35,12 @@ class ProjectRepository {
   
     return project.id;
   }
+
+  async updateMembers({ id, members }) {
+    const project = await this.projectsCollection.doc(id).update({
+      members
+    });
+  }
 }
 
 module.exports = new ProjectRepository();
