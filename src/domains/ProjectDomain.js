@@ -12,8 +12,8 @@ class ProjectDomain {
     return await projectRepositoryInstance.getAll();
   }
 
-  async create(project) {
-    return await projectRepositoryInstance.create(project);
+  async create({ name, userId }) {
+    return await projectRepositoryInstance.create({ name, owner: userId, createdBy: userId});
   }
 
   async addMember({ id, email, userId, token }) {

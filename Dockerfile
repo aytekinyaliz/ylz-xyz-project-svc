@@ -1,5 +1,8 @@
 FROM node:alpine
 
+# used for git dependency
+RUN apk add --update git
+
 WORKDIR /app
 
 COPY ./package.json .

@@ -2,7 +2,7 @@ const firestore = require('../services/firestore');
 
 class ProjectRepository {
   constructor() {
-    this.collectionName = 'projects';
+    this.collectionName = 'Projects';
     this.projectsCollection = firestore.collection(this.collectionName);
   }
 

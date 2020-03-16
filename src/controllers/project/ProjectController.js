@@ -28,7 +28,7 @@ class ProjectController {
       const { id: userId } = res.locals.user;
       const { name } = req.body;
 
-      const id = await projectDomainInstance.create({ name, owner: userId, createdBy: userId });
+      const id = await projectDomainInstance.create({ name, userId });
 
       res.status(201).json({ id });
     } catch(err) {
