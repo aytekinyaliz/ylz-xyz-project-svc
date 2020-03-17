@@ -1,3 +1,5 @@
+const { libs:{constants:{HttpStatusCode}}} = require('ylz-xyz-common');
+
 const projectRepositoryInstance = require('../repositories/ProjectRepository');
 const iamServiceInstance = require('../services/IamService');
 const deviceServiceInstance = require('../services/DeviceService');
@@ -21,14 +23,14 @@ class ProjectDomain {
 
     if(!project) {
       const error = Error('Project not found!');
-      error.code = 400;
+      error.code = HttpStatusCode.BAD_REQUEST;
 
       throw error;
     }
 
     if(project.owner !== userId) {
       const error = Error('Not authorized to perform this operation!');
-      error.code = 403;
+      error.code = HttpStatusCode.FORBIDDEN;
 
       throw error;
     }
@@ -37,21 +39,21 @@ class ProjectDomain {
 
     if(!user) {
       const error = Error('User not found!');
-      error.code = 400;
+      error.code = HttpStatusCode.BAD_REQUEST;
 
       throw error;
     }
 
     if(project.owner === user.id) {
       const error = Error('Already the owner!');
-      error.code = 400;
+      error.code = HttpStatusCode.BAD_REQUEST;
 
       throw error;
     }
 
     if(project.members.includes(user.id)) {
       const error = Error('Already a member!');
-      error.code = 400;
+      error.code = HttpStatusCode.BAD_REQUEST;
 
       throw error;
     }
@@ -66,14 +68,14 @@ class ProjectDomain {
 
     if(!project) {
       const error = Error('Project not found!');
-      error.code = 400;
+      error.code = HttpStatusCode.BAD_REQUEST;
 
       throw error;
     }
 
     if(project.owner !== userId) {
       const error = Error('Not authorized to perform this operation!');
-      error.code = 403;
+      error.code = HttpStatusCode.FORBIDDEN;
 
       throw error;
     }
@@ -82,14 +84,14 @@ class ProjectDomain {
 
     if(!device) {
       const error = Error('Device not found!');
-      error.code = 400;
+      error.code = HttpStatusCode.BAD_REQUEST;
 
       throw error;
     }
 
     if(project.devices.includes(deviceId)) {
       const error = Error('Already added!');
-      error.code = 400;
+      error.code = HttpStatusCode.BAD_REQUEST;
 
       throw error;
     }

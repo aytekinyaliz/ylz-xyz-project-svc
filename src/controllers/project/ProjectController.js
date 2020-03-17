@@ -1,3 +1,5 @@
+const { libs:{constants:{HttpStatusCode}}} = require('ylz-xyz-common');
+
 const projectDomainInstance = require('../../domains/ProjectDomain');
 
 class ProjectController {
@@ -30,7 +32,7 @@ class ProjectController {
 
       const id = await projectDomainInstance.create({ name, userId });
 
-      res.status(201).json({ id });
+      res.status(HttpStatusCode.CREATED).json({ id });
     } catch(err) {
       next(err);
     }
@@ -64,7 +66,7 @@ class ProjectController {
 
       const id = await projectDomainInstance.create({ name, owner: userId, createdBy: userId });
 
-      res.status(201).json({ id });
+      res.status(HttpStatusCode.CREATED).json({ id });
     } catch(err) {
       next(err);
     }
