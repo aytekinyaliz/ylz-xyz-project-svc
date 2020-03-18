@@ -4,6 +4,21 @@ const config = require('../config');
 
 
 class IamService {
+  async getAll({ token }) {
+    const { iamServiceUri } = config;
+
+    const requestOptions = {
+      method: 'GET',
+      baseURL: iamServiceUri,
+      url: `/api/users`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      // data: input
+    };
+
+    return await new Connector().requestApi(requestOptions);
+  }
   async getUserByEmail({ email, token }) {
     const { iamServiceUri } = config;
 

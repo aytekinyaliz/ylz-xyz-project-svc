@@ -5,7 +5,9 @@ const projectDomainInstance = require('../../domains/ProjectDomain');
 class ProjectController {
   async getAll(req, res, next) {
     try {
-      const projects = await projectDomainInstance.getAll();
+      const { token } = res.locals.user;
+
+      const projects = await projectDomainInstance.getAll({ token });
 
       res.json(projects);
     } catch(err) {

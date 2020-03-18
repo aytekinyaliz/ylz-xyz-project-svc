@@ -16,8 +16,8 @@ class ProjectRepository {
     const projectsRef = await this.projectsCollection.get();
 
     const projects = [];
-    projectsRef.forEach(user => {
-      projects.push({ id: user.id, ...user.data() });
+    projectsRef.forEach(project => {
+      projects.push({ id: project.id, ...project.data() });
     });
   
     return projects;

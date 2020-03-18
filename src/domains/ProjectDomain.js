@@ -10,8 +10,36 @@ class ProjectDomain {
     return await projectRepositoryInstance.get(id);
   }
 
-  async getAll() {
-    return await projectRepositoryInstance.getAll();
+  async getAll({ token }) {
+    const projects = await projectRepositoryInstance.getAll();
+
+    if(!projects) {
+      return null;
+    }
+
+    const users = await iamServiceInstance.getAll({ token });
+
+    return projects.map(project => {
+      const owner = users.find(user => user.id === project.owner);
+
+      return {
+        ...project,
+        owner: {
+          id: project.id,
+          firstName: owner.firstName,
+          lastName: owner.lastName
+        },
+        members: project.members.map(m => {
+          const member = users.find(user => user.id === m);
+
+          return {
+            id: member.id,
+            firstName: member.firstName,
+            lastName: member.lastName
+          };
+        })
+      };
+    });
   }
 
   async create({ name, userId }) {
