@@ -1,0 +1,20 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "ylz-xyz-project-svc"
+  namespace: "default"
+  labels:
+    app: "ylz-xyz-project-svc"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "ylz-xyz-project-svc"
+  template:
+    metadata:
+      labels:
+        app: "ylz-xyz-project-svc"
+    spec:
+      containers:
+      - name: "ylz-xyz-project-svc"
+        image: "gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$SHORT_SHA"
