@@ -17,4 +17,4 @@ spec:
     spec:
       containers:
       - name: "ylz-xyz-project-svc"
-        image: "gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$SHORT_SHA"
+        image: "gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$COMMIT_SHA"
