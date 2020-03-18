@@ -111,8 +111,6 @@ class ProjectDomain {
       throw error;
     }
 
-    console.log('DDDD')
-
     if(project.owner !== userId) {
       const error = Error('Not authorized to perform this operation!');
       error.code = HttpStatusCode.FORBIDDEN;
@@ -121,8 +119,6 @@ class ProjectDomain {
     }
 
     const device = await deviceServiceInstance.get({ id: deviceId, token });
-
-    console.log('DDDD')
 
 
     console.log(device);
