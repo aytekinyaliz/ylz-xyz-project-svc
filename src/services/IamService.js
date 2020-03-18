@@ -19,6 +19,7 @@ class IamService {
 
     return await new Connector().requestApi(requestOptions);
   }
+  
   async getUserByEmail({ email, token }) {
     const { iamServiceUri } = config;
 

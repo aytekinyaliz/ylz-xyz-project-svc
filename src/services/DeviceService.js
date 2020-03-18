@@ -25,6 +25,22 @@ class DeviceService {
       }
       : null;
   }
+
+  async getAll({ token }) {
+    const { deviceServiceUri } = config;
+
+    const requestOptions = {
+      method: 'GET',
+      baseURL: deviceServiceUri,
+      url: `/api/devices`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      // data: input
+    };
+
+    return await new Connector().requestApi(requestOptions);
+  }
 }
 
 module.exports = new DeviceService();
