@@ -18,6 +18,7 @@ class ProjectDomain {
     }
 
     const users = await iamServiceInstance.getAll({ token });
+    const devices = await deviceServiceInstance.getAll({ token });
 
     return projects.map(project => {
       const owner = users.find(user => user.id === project.owner);
@@ -36,6 +37,15 @@ class ProjectDomain {
             id: member.id,
             firstName: member.firstName,
             lastName: member.lastName
+          };
+        }),
+        devices: project.devices.map(d => {
+          const device = devices.find(device => device.id === d);
+
+          return {
+            id: device.id,
+            serialNumber: device.serialNumber,
+            name: device.name
           };
         })
       };
@@ -101,6 +111,8 @@ class ProjectDomain {
       throw error;
     }
 
+    console.log('DDDD')
+
     if(project.owner !== userId) {
       const error = Error('Not authorized to perform this operation!');
       error.code = HttpStatusCode.FORBIDDEN;
@@ -108,7 +120,12 @@ class ProjectDomain {
       throw error;
     }
 
-    const device = await deviceServiceInstance.get({ deviceId, token });
+    const device = await deviceServiceInstance.get({ id: deviceId, token });
+
+    console.log('DDDD')
+
+
+    console.log(device);
 
     if(!device) {
       const error = Error('Device not found!');
@@ -125,6 +142,8 @@ class ProjectDomain {
     }
 
     project.devices.push(deviceId);
+
+    console.log(project.devices);
 
     await projectRepositoryInstance.update({ id, devices: project.devices });
   }

@@ -32,6 +32,10 @@ class ProjectController {
       const { id: userId } = res.locals.user;
       const { name } = req.body;
 
+      if(!name) {
+        return res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Invalid format!' });
+      }
+
       const id = await projectDomainInstance.create({ name, userId });
 
       res.status(HttpStatusCode.CREATED).json({ id });
@@ -45,6 +49,10 @@ class ProjectController {
       const { id: userId, token } = res.locals.user;
       const { id } = req.params;
       const { email } = req.body;
+
+      if(!id || !email) {
+        return res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Invalid format!' });
+      }
 
       try {
         await projectDomainInstance.addMember({ id, email, userId, token });
@@ -62,13 +70,23 @@ class ProjectController {
 
   async addDevice(req, res, next) {
     try {
-      const { id: userId } = res.locals.user;
-      const { key } = req.params;
+      const { id: userId, token } = res.locals.user;
+      const { id } = req.params;
       const { deviceId } = req.body;
 
-      const id = await projectDomainInstance.create({ name, owner: userId, createdBy: userId });
+      if(!id || !deviceId) {
+        return res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'Invalid format!' });
+      }
 
-      res.status(HttpStatusCode.CREATED).json({ id });
+      try {
+        await projectDomainInstance.addDevice({ id, deviceId, userId, token });
+      } catch(err) {
+        if(err.code) {
+          return res.status(err.code).json({ message: err.message });
+        }
+      }
+
+      return res.send();
     } catch(err) {
       next(err);
     }
