@@ -3,11 +3,51 @@ const { libs:{constants:{HttpStatusCode}}} = require('ylz-xyz-common');
 const projectRepositoryInstance = require('../repositories/ProjectRepository');
 const iamServiceInstance = require('../services/IamService');
 const deviceServiceInstance = require('../services/DeviceService');
+const fileServiceInstance = require('../services/FileService');
 
 
 class ProjectDomain {
-  async get(id) {
-    return await projectRepositoryInstance.get(id);
+  async get({ token, id }) {
+    const project = await projectRepositoryInstance.get(id);
+
+    if(!project) {
+      return null;
+    }
+
+    const users = await iamServiceInstance.getAll({ token });
+    const devices = await deviceServiceInstance.getAll({ token });
+    const files = await fileServiceInstance.query({ token, projectId: id });
+
+    const owner = users.find(user => user.id === project.owner);
+
+    return {
+      ...project,
+      owner: {
+        id: owner.id,
+        firstName: owner.firstName,
+        lastName: owner.lastName
+      },
+      members: project.members.map(m => {
+        const member = users.find(user => user.id === m);
+
+        return {
+          id: member.id,
+          firstName: member.firstName,
+          lastName: member.lastName
+        };
+      }),
+      devices: project.devices.map(d => {
+        const device = devices.find(device => device.id === d);
+
+        return {
+          id: device.id,
+          serialNumber: device.serialNumber,
+          name: device.name
+        };
+      }),
+      files: files
+    };
+
   }
 
   async getAll({ token }) {
@@ -19,6 +59,7 @@ class ProjectDomain {
 
     const users = await iamServiceInstance.getAll({ token });
     const devices = await deviceServiceInstance.getAll({ token });
+    const files = await fileServiceInstance.query({ token, projectId: '*' });
 
     return projects.map(project => {
       const owner = users.find(user => user.id === project.owner);
@@ -26,7 +67,7 @@ class ProjectDomain {
       return {
         ...project,
         owner: {
-          id: project.id,
+          id: owner.id,
           firstName: owner.firstName,
           lastName: owner.lastName
         },
@@ -47,6 +88,9 @@ class ProjectDomain {
             serialNumber: device.serialNumber,
             name: device.name
           };
+        }),
+        files: files.filter(file => {
+          return file.indexOf(project.id + '_') === 0
         })
       };
     });

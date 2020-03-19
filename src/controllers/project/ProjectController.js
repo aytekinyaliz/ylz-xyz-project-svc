@@ -17,9 +17,10 @@ class ProjectController {
 
   async getOne(req, res, next) {
     try {
+      const { token } = res.locals.user;
       const { id } = req.params;
 
-      const project = await projectDomainInstance.get(id);
+      const project = await projectDomainInstance.get({ token, id });
 
       res.json(project);
     } catch(err) {
