@@ -18,7 +18,7 @@ steps:
     # Update Image Tags
   - name: set-substitues
     id: 'Setting Init Image Tag'
-    args: ['bash','-c','sed -i "s,COMMIT_IMAGE_NAME,gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$COMMIT_SHA," deployment.yaml']
+    args: ['bash','-c','sed -i "s,COMMIT_IMAGE_NAME,gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$COMMIT_SHA," kubernetes/deployment.yaml']
 
 
   - name: gcr.io/cloud-builders/gke-deploy
