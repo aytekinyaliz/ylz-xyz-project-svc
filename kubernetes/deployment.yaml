@@ -1,0 +1,96 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "ylz-xyz-project-svc"
+  namespace: "default"
+  labels:
+    app: "ylz-xyz-project-svc"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "ylz-xyz-project-svc"
+  template:
+    metadata:
+      labels:
+        app: "ylz-xyz-project-svc"
+    spec:
+      containers:
+      - name: "ylz-xyz-project-svc-1"
+        image: "gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$SHORT_SHA"
+        env:
+        - name: "API_PREFIX"
+          valueFrom:
+            configMapKeyRef:
+              key: "API_PREFIX"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "NODE_ENV"
+          valueFrom:
+            configMapKeyRef:
+              key: "NODE_ENV"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "PORT"
+          valueFrom:
+            configMapKeyRef:
+              key: "PORT"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "IAM_SERVICE_URI"
+          valueFrom:
+            configMapKeyRef:
+              key: "IAM_SERVICE_URI"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "DEVICE_SERVICE_URI"
+          valueFrom:
+            configMapKeyRef:
+              key: "DEVICE_SERVICE_URI"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_TYPE"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_TYPE"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_PROJECT_ID"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_PROJECT_ID"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_PRIVATE_KEY_ID"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_PRIVATE_KEY_ID"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_PRIVATE_KEY"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_PRIVATE_KEY"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_CLIENT_EMAIL"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_CLIENT_EMAIL"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_CLIENT_ID"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_CLIENT_ID"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_AUTH_URI"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_AUTH_URI"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_TOKEN_URI"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_TOKEN_URI"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_AUTH_PROVIDER_X509_CERT_URL"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_AUTH_PROVIDER_X509_CERT_URL"
+              name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FIRESTORE_CLIENT_X509_CERT_URL"
+          valueFrom:
+            configMapKeyRef:
+              key: "FIRESTORE_CLIENT_X509_CERT_URL"
+              name: "ylz-xyz-project-svc-config-xpoo"

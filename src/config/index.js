@@ -2,13 +2,13 @@ const dotenv = require("dotenv");
 
 console.log(process.env.NODE_ENV);
 
-// dotenv.config();
+dotenv.config();
 
-if (process.env.NODE_ENV === 'prod') {
-  dotenv.config({ path: ".env.prod" });
-} else {
-  dotenv.config({ path: ".env.local" });
-}
+// if (process.env.NODE_ENV === 'prod') {
+//   dotenv.config({ path: ".env.prod" });
+// } else {
+//   dotenv.config({ path: ".env.local" });
+// }
 
 const config = {
   apiPrefix: process.env.API_PREFIX,

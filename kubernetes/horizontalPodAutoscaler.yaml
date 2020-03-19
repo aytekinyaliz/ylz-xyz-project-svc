@@ -1,7 +1,7 @@
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: "ylz-xyz-project-svc-hpa-ot5e"
+  name: "ylz-xyz-project-svc-hpa-ywql"
   namespace: "default"
   labels:
     app: "ylz-xyz-project-svc"
