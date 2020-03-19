@@ -6,6 +6,7 @@ const config = {
   apiPrefix: process.env.API_PREFIX,
   deviceServiceUri: process.env.DEVICE_SERVICE_URI,
   iamServiceUri: process.env.IAM_SERVICE_URI,
+  fileServiceUri: process.env.FILE_SERVICE_URI,
   nodeEnv: process.env.NODE_ENV,
   port: process.env.PORT,
 
