@@ -6,7 +6,7 @@ metadata:
   labels:
     app: "ylz-xyz-project-svc"
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: "ylz-xyz-project-svc"
