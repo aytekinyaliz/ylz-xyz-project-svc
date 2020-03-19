@@ -9,7 +9,7 @@ data:
   API_PREFIX: "/api"
   NODE_ENV: "prod"
   PORT: "3000"
-  IAM_SERVICE_URI: "http://35.198.155.104:80"
+  IAM_SERVICE_URI: "http://35.198.79.51:80"
   DEVICE_SERVICE_URI: "http://35.198.155.104:80"
   FIRESTORE_TYPE: "service_account"
   FIRESTORE_PROJECT_ID: "ylz-xyz-infra"
