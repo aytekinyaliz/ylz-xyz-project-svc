@@ -17,4 +17,4 @@ spec:
     spec:
       containers:
       - name: "ylz-xyz-project-svc"
-        image: "$COMMIT_IMAGE_NAME"
+        image: "gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$_COMMIT_SHA"

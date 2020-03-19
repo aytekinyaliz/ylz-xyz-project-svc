@@ -14,12 +14,6 @@ steps:
       - push
       - '$_IMAGE_NAME:$COMMIT_SHA'
     id: Push
-    
-    # Update Image Tags
-  - name: set-substitues
-    id: 'Setting Init Image Tag'
-    args: ['bash','-c','sed -i "s,COMMIT_IMAGE_NAME,gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:$COMMIT_SHA," kubernetes/deployment.yaml']
-
 
   - name: gcr.io/cloud-builders/gke-deploy
     args:
