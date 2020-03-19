@@ -9,6 +9,7 @@ steps:
       - $_DOCKERFILE_NAME
     dir: $_DOCKERFILE_DIR
     id: Build
+
   - name: gcr.io/cloud-builders/docker
     args:
       - push
@@ -27,6 +28,7 @@ steps:
       - '--annotation=$_K8S_ANNOTATIONS,gcb-build-id=$BUILD_ID'
       - '--output=output'
     id: Prepare deploy
+
   - name: gcr.io/cloud-builders/gsutil
     args:
       - '-c'
