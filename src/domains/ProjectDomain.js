@@ -54,7 +54,7 @@ class ProjectDomain {
     return await projectRepositoryInstance.get({ id });
   }
 
-  async getAll({ token }) {
+  async getAll({ userId, token }) {
     const projects = await projectRepositoryInstance.getAll();
 
     if(!projects) {
@@ -65,38 +65,42 @@ class ProjectDomain {
     const devices = await deviceServiceInstance.getAll({ token });
     const files = await fileServiceInstance.query({ token, projectId: '*' });
 
-    return projects.map(project => {
-      const owner = users.find(user => user.id === project.owner);
+    return projects.filter(project => {
+      if(project.owner === userId || project.members.includes(userId)) {
+        const owner = users.find(user => user.id === project.owner);
 
-      return {
-        ...project,
-        owner: {
-          id: owner.id,
-          firstName: owner.firstName,
-          lastName: owner.lastName
-        },
-        members: project.members.map(m => {
-          const member = users.find(user => user.id === m);
+        return {
+          ...project,
+          owner: {
+            id: owner.id,
+            firstName: owner.firstName,
+            lastName: owner.lastName
+          },
+          members: project.members.map(m => {
+            const member = users.find(user => user.id === m);
 
-          return {
-            id: member.id,
-            firstName: member.firstName,
-            lastName: member.lastName
-          };
-        }),
-        devices: project.devices.map(d => {
-          const device = devices.find(device => device.id === d);
+            return {
+              id: member.id,
+              firstName: member.firstName,
+              lastName: member.lastName
+            };
+          }),
+          devices: project.devices.map(d => {
+            const device = devices.find(device => device.id === d);
 
-          return {
-            id: device.id,
-            serialNumber: device.serialNumber,
-            name: device.name
-          };
-        }),
-        files: files.filter(file => {
-          return file.indexOf(project.id + '_') === 0
-        })
-      };
+            return {
+              id: device.id,
+              serialNumber: device.serialNumber,
+              name: device.name
+            };
+          }),
+          files: files.filter(file => {
+            return file.indexOf(project.id + '_') === 0
+          })
+        };
+      }
+
+      return false;
     });
   }
 
