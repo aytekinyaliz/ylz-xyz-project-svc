@@ -50,6 +50,10 @@ class ProjectDomain {
 
   }
 
+  async getRaw({ id }) {
+    return await projectRepositoryInstance.get({ id });
+  }
+
   async getAll({ token }) {
     const projects = await projectRepositoryInstance.getAll();
 
@@ -101,7 +105,7 @@ class ProjectDomain {
   }
 
   async addMember({ id, email, userId, token }) {
-    const project = await this.get(id);
+    const project = await this.getRaw({ id });
 
     if(!project) {
       const error = Error('Project not found!');
@@ -146,7 +150,7 @@ class ProjectDomain {
   }
 
   async addDevice({ id, deviceId, userId, token }) {
-    const project = await this.get({ id, token });
+    const project = await this.getRaw({ id });
 
     if(!project) {
       const error = Error('Project not found!');
@@ -155,9 +159,7 @@ class ProjectDomain {
       throw error;
     }
 
-    console.log(project.owner, userId);
-
-    if(project.owner.id !== userId) {
+    if(project.owner !== userId) {
       const error = Error('Not authorized to perform this operation!');
       error.code = HttpStatusCode.FORBIDDEN;
 
@@ -165,9 +167,6 @@ class ProjectDomain {
     }
 
     const device = await deviceServiceInstance.get({ id: deviceId, token });
-
-
-    console.log(device);
 
     if(!device) {
       const error = Error('Device not found!');
