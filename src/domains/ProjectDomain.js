@@ -65,8 +65,9 @@ class ProjectDomain {
     const devices = await deviceServiceInstance.getAll({ token });
     const files = await fileServiceInstance.query({ token, projectId: '*' });
 
-    return projects.filter(project => {
-      if(project.owner === userId || project.members.includes(userId)) {
+    return projects
+      .filter(project => project.owner === userId || project.members.includes(userId))
+      .map(project => {
         const owner = users.find(user => user.id === project.owner);
 
         return {
@@ -98,10 +99,7 @@ class ProjectDomain {
             return file.indexOf(project.id + '_') === 0
           })
         };
-      }
-
-      return false;
-    });
+      });
   }
 
   async create({ name, userId }) {
