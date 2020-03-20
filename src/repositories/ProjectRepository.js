@@ -6,7 +6,7 @@ class ProjectRepository {
     this.projectsCollection = firestore.collection(this.collectionName);
   }
 
-  async get(id) {
+  async get({ id }) {
     const project = await this.projectsCollection.doc(id).get();
   
     return project.data();

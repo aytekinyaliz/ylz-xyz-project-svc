@@ -20,7 +20,7 @@ class ProjectController {
       const { token } = res.locals.user;
       const { id } = req.params;
 
-      const project = await projectDomainInstance.get({ token, id });
+      const project = await projectDomainInstance.get({ id, token });
 
       res.json(project);
     } catch(err) {

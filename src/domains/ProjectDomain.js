@@ -8,7 +8,7 @@ const fileServiceInstance = require('../services/FileService');
 
 class ProjectDomain {
   async get({ token, id }) {
-    const project = await projectRepositoryInstance.get(id);
+    const project = await projectRepositoryInstance.get({ id });
 
     if(!project) {
       return null;
@@ -146,7 +146,7 @@ class ProjectDomain {
   }
 
   async addDevice({ id, deviceId, userId, token }) {
-    const project = await this.get(id);
+    const project = await this.get({ id, token });
 
     if(!project) {
       const error = Error('Project not found!');
@@ -155,7 +155,9 @@ class ProjectDomain {
       throw error;
     }
 
-    if(project.owner !== userId) {
+    console.log(project.owner, userId);
+
+    if(project.owner.id !== userId) {
       const error = Error('Not authorized to perform this operation!');
       error.code = HttpStatusCode.FORBIDDEN;
 
@@ -182,8 +184,6 @@ class ProjectDomain {
     }
 
     project.devices.push(deviceId);
-
-    console.log(project.devices);
 
     await projectRepositoryInstance.update({ id, devices: project.devices });
   }
