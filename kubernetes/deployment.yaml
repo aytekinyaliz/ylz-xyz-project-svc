@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: "ylz-xyz-project-svc-1"
-        image: "gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:264b8ad"
+        image: "gcr.io/ylz-xyz-infra/github.com/aytekinyaliz/ylz-xyz-project-svc:264b8ad3ffdf962506549cc60f47d6c3dc4fde89"
         env:
         - name: "API_PREFIX"
           valueFrom:
