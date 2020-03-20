@@ -24,4 +24,6 @@ const config = {
   }
 };
 
+console.log('OK');
+
 module.exports = config;
