@@ -44,6 +44,11 @@ spec:
             configMapKeyRef:
               key: "DEVICE_SERVICE_URI"
               name: "ylz-xyz-project-svc-config-xpoo"
+        - name: "FILE_SERVICE_URI"
+          valueFrom:
+            configMapKeyRef:
+              key: "FILE_SERVICE_URI"
+              name: "ylz-xyz-project-svc-config-xpoo"
         - name: "FIRESTORE_TYPE"
           valueFrom:
             configMapKeyRef:
